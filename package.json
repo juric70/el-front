@@ -1,0 +1,28 @@
+{
+  "name": "el-front",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@mdi/js": "^7.4.47",
+    "aos": "^2.3.4",
+    "autoprefixer": "^9.8.8",
+    "axios": "^1.7.9",
+    "pinia": "^3.0.1",
+    "postcss": "^7.0.39",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.0.6",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "postcss-import": "^16.1.0",
+    "vite": "^6.1.0"
+  }
+}
