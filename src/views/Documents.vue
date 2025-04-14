@@ -1,9 +1,7 @@
 <template>
   <div class="max-w-4xl mx-auto p-6 space-y-8">
-    <!-- Naslov stranice -->
     <h1 class="text-4xl font-bold text-center mb-6">Rad s dokumentima i potpisom</h1>
 
-    <!-- Sekcija 1: Spremanje potpisa -->
     <section class="border rounded-lg p-4 shadow-sm">
       <h2 class="text-2xl font-semibold mb-4">Spremi potpis za dokumente</h2>
       <div class="border p-2 mb-4">
@@ -25,7 +23,6 @@
       <p v-if="signatureError" class="mt-2 text-red-600">{{ signatureError }}</p>
     </section>
 
-    <!-- Sekcija 2: Generiranje dokumenata -->
     <section class="border rounded-lg p-4 shadow-sm">
       <h2 class="text-2xl font-semibold mb-4">Generiraj dokumente</h2>
       <div class="mb-4">
@@ -63,7 +60,6 @@
       </div>
     </section>
 
-    <!-- Sekcija 3: Provjera autentičnosti dokumenta -->
     <section class="border rounded-lg p-4 shadow-sm">
       <h2 class="text-2xl font-semibold mb-4">Provjera autentičnosti dokumenta</h2>
       <button
@@ -87,13 +83,11 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
-// Sekcija: Potpis
 const signaturePad = ref(null)
 const signatureData = ref('')
 const signatureMessage = ref('')
 const signatureError = ref('')
 
-// Sekcija: Dokumenti
 const conversationId = ref('')
 const documentMessage = ref('')
 const documentError = ref('')
@@ -101,24 +95,20 @@ const fileUrl = ref('')
 const docLoading = ref(false)
 const docType = ref('') // 'word' ili 'pdf'
 
-// Sekcija: Provjera dokumenta
 const verifyMessage = ref('')
 const verifyError = ref('')
 const verifyUrl = ref('')
 const verifyLoading = ref(false)
 
-// Postavljanje canvasa za potpis
 let canvas, ctx, drawing = false
 
 onMounted(() => {
   canvas = signaturePad.value
   if (canvas) {
     ctx = canvas.getContext('2d')
-    // Postavi dimenzije canvasa
     canvas.width = canvas.offsetWidth
     canvas.height = canvas.offsetHeight
 
-    // Dodaj event listenere za crtanje (miš i touch)
     canvas.addEventListener('mousedown', startDrawing)
     canvas.addEventListener('mousemove', draw)
     canvas.addEventListener('mouseup', stopDrawing)
@@ -188,7 +178,6 @@ const saveSignature = async () => {
   }
 }
 
-// Sekcija: Generiranje dokumenata
 const generateWord = async () => {
   if (!conversationId.value.trim()) {
     documentError.value = 'Unesite ID razgovora.'
@@ -232,7 +221,6 @@ const generateSignedPdf = async () => {
   }
 }
 
-// Sekcija: Provjera autentičnosti dokumenta
 const verifyDocument = async () => {
   if (!conversationId.value.trim()) {
     verifyError.value = 'Unesite ID razgovora.'
@@ -259,7 +247,6 @@ canvas {
   touch-action: none;
 }
 
-/* Opcionalno: dodatni stilovi za sekcije */
 section {
   background-color: #ffffff;
 }

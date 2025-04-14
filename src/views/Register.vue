@@ -105,15 +105,10 @@ export default {
         successMessage.value = response.data.message || "Registracija uspješna!";
         errorMessage.value = "";
 
-        // Spremi token u localStorage (ako postoji)
         if (response.data.token) {
           localStorage.setItem('token', response.data.token);
         }
 
-        // (Neobavezno) Spremi user-a u localStorage ili globalni store
-        // localStorage.setItem('user', JSON.stringify(response.data.user));
-
-        // npr. odma preusmjeri na Dashboard ili login
         setTimeout(() => {
           window.location.href = "/login";
         }, 2000);

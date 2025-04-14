@@ -72,7 +72,6 @@ const logout = async () => {
       </div>
     </div>
 
-    <!-- SideMenu se prikazuje samo za prijavljene korisnike -->
     <SideMenu v-if="authStore.isLoggedIn" :isOpen="isMenuOpen" @close="closeMenu" />
   </header>
 </template>

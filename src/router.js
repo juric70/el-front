@@ -6,7 +6,7 @@ import Register from './views/Register.vue'
 import Laws from "./views/Laws.vue";
 import Signature from './views/Signature.vue'
 import DocumentView from './views/Documents.vue'
-import { useAuthStore } from './stores/auth.js'  // prilagodi putanju svom storeu
+import { useAuthStore } from './stores/auth.js'
 
 const routes = [
     { path: '/chat', component: HomePage, meta: { requiresAuth: true } },
@@ -24,7 +24,6 @@ const router = createRouter({
     routes
 })
 
-// Globalni router guard
 router.beforeEach((to, from, next) => {
     const authStore = useAuthStore();
 

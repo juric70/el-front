@@ -1,8 +1,5 @@
 <template>
   <div class="min-h-screen bg-white text-gray-900 flex flex-col">
-
-
-    <!-- Hero sekcija -->
     <section class="flex flex-col items-center justify-center text-center py-24 bg-gradient-to-b from-primaryDark via-primary  to-gray-50 to-10% text-white">
       <h2 class="text-5xl font-extrabold mb-6">Pravna pomoć, brzo i jednostavno</h2>
       <p class="text-xl max-w-3xl mb-6">Dobijte besplatne pravne savjete ili se povežite s odvjetnicima putem naše moderne platforme.</p>
@@ -13,7 +10,6 @@
 
     </section>
 
-    <!-- Usluge -->
     <section id="services" class="py-20 px-8 text-center bg-gray-50">
       <h3 class="text-3xl font-bold mb-10 text-primary">Naše usluge</h3>
       <div class="grid md:grid-cols-4 gap-10">
@@ -45,7 +41,6 @@
     Dodaj novi razgovor
   </button>
 
-  <!-- Uključimo NewConversationDialog -->
   <NewConversationDialog
       :isOpen="showDialog"
       @save="handleSave"
@@ -59,20 +54,16 @@ import NewConversationDialog from './../components/NewConversationDialog.vue'
 
 const showDialog = ref(false)
 
-// Kad kliknemo "Spremi"
 function handleSave(nazivRazgovora) {
   console.log('Sačuvan razgovor:', nazivRazgovora)
-  // Ovdje možeš poslati podatke serveru, itd.
 
-  showDialog.value = false // Zatvori dijalog
+  showDialog.value = false
 }
 
-// Kad kliknemo "Otkaži"
 function handleCancel() {
-  showDialog.value = false // Zatvori dijalog
+  showDialog.value = false
 }
 </script>
 
 <style>
-/* Prilagođeni stilovi ako su potrebni */
 </style>

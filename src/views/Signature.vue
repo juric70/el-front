@@ -36,7 +36,6 @@ const fetchSignature = async () => {
     signature.value = response.data.signature
   } catch (err) {
     if (err.response && err.response.status === 404) {
-      // Ako potpis ne postoji, postavi prazan string
       signature.value = ''
     } else {
       error.value = 'Došlo je do greške prilikom učitavanja potpisa.'
@@ -65,5 +64,4 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* Dodajte dodatne stilove po želji */
 </style>

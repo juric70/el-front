@@ -14,7 +14,6 @@ export const useAuthStore = defineStore('auth', {
         login(user, token) {
             this.user = user
             this.token = token
-            // Pohrani token i usera za "persistenciju"
             localStorage.setItem('token', token)
             localStorage.setItem('user', JSON.stringify(user))
         },
@@ -26,7 +25,6 @@ export const useAuthStore = defineStore('auth', {
             localStorage.removeItem('user')
         },
 
-        // Pomoćna akcija da se "učitaju" token i user iz localStorage-a ako postoje
         initializeFromLocalStorage() {
             const token = localStorage.getItem('token')
             const user = localStorage.getItem('user')

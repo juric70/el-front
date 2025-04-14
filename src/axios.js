@@ -5,7 +5,6 @@ axios.defaults.headers.common['Accept'] = 'application/json';
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
 
-// Interceptor za dodavanje Bearer tokena (ako postoji)
 axios.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('token');

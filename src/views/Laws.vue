@@ -39,5 +39,4 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* Dodaj stilove po želji */
 </style>

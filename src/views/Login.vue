@@ -6,7 +6,6 @@
       <h2 class="text-2xl font-bold text-center text-primary">Prijava</h2>
 
       <form @submit.prevent="handleLogin" class="mt-4">
-        <!-- Email -->
         <div class="mb-4">
           <label class="block text-gray-600">Email</label>
           <input
@@ -17,7 +16,6 @@
           />
         </div>
 
-        <!-- Lozinka -->
         <div class="mb-4">
           <label class="block text-gray-600">Password</label>
           <input
@@ -28,7 +26,6 @@
           />
         </div>
 
-        <!-- Link na registraciju -->
         <div class="mb-4">
           <p class="text-sm text-gray-500">
             Ukoliko niste registrirani
@@ -38,7 +35,6 @@
           </p>
         </div>
 
-        <!-- Gumb za prijavu -->
         <button
             type="submit"
             class="w-full px-4 py-2 text-white bg-primary rounded-md hover:bg-primaryDark transition"
@@ -47,7 +43,7 @@
         </button>
       </form>
 
-      <!-- Prikaz eventualne greške -->
+
       <p v-if="errorMessage" class="mt-4 text-red-500 text-center">
         {{ errorMessage }}
       </p>
@@ -60,8 +56,7 @@ import { ref, onMounted } from 'vue'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
-// Ako imaš posebno podešen axios (npr. axios.js s interceptorima), importaj od tamo
-// import axios from '../axios.js'
+
 import axios from 'axios'
 
 const email = ref('')
@@ -73,33 +68,23 @@ onMounted(() => {
 })
 
 const handleLogin = async () => {
-  // Resetiraj poruku o grešci
   errorMessage.value = ''
 
   try {
-    // POST na /api/login s emailom i passwordom
     const response = await axios.post('/api/login', {
       email: email.value,
       password: password.value
     })
 
-    // Ako je sve OK, backend vraća { message, token, user }
     const { token, user } = response.data
 
-    // Spremi token u localStorage (po želji i user podatke)
     if (token) {
       localStorage.setItem('token', token)
-      localStorage.setItem('user', JSON.stringify(user)) // neobavezno
+      localStorage.setItem('user', JSON.stringify(user))
     }
-
-    // Preusmjeri korisnika nakon uspješnog logina
-    // Možeš koristiti `window.location.href` ili router push, npr.:
     window.location.href = '/'
-    // ili ako koristiš vue-router:
-    // router.push('/')
+
   } catch (error) {
-    // U slučaju greške
-    // Ako backend šalje poruku u error.response.data.error:
     errorMessage.value = error.response?.data?.error || 'Nešto je pošlo po zlu.'
   }
 }
