@@ -8,7 +8,31 @@
   </head>
   <body>
     <div id="app"></div>
+
+    <!-- ✅ Include Pusher JS via CDN -->
+    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+
+    <!-- ✅ Include Laravel Echo via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.11.3/dist/echo.iife.js"></script>
+
+    <!-- ✅ Reverb WebSocket Setup -->
+    <script>
+      window.Echo = new Echo({
+        broadcaster: 'pusher',
+        key: 'localappkey123456',
+        wsHost: '127.0.0.1',
+        wsPort: 6001,
+        forceTLS: false,
+        disableStats: true,
+        enabledTransports: ['ws'],
+      });
+    </script>
+    
+
+    <!-- ✅ Main Vue Application Script -->
     <script type="module" src="/src/main.js"></script>
+
+    <!-- Optional: AOS animation lib -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   </body>
 </html>

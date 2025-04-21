@@ -13,9 +13,9 @@
           Očisti
         </button>
         <button
-            @click="saveSignature"
-            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
-            :disabled="!signatureData"
+          @click="saveSignature"
+          class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+          :disabled="!signatureData"
         >
           Spremi potpis
         </button>
@@ -46,17 +46,17 @@
 
       <div class="flex flex-wrap gap-4 mb-4">
         <button
-            @click="generateWord"
-            class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
-            :disabled="!conversationId || docLoading"
+          @click="generateWord"
+          class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
+          :disabled="!conversationId || docLoading"
         >
           Generiraj Word
           <span v-if="docLoading && docType === 'word'" class="ml-2 text-sm">Učitavanje...</span>
         </button>
         <button
-            @click="generateSignedPdf"
-            class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded"
-            :disabled="!conversationId || docLoading"
+          @click="generateSignedPdf"
+          class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded"
+          :disabled="!conversationId || docLoading"
         >
           Generiraj potpisani PDF
           <span v-if="docLoading && docType === 'pdf'" class="ml-2 text-sm">Učitavanje...</span>
@@ -80,9 +80,9 @@
     <section class="border rounded-lg p-4 shadow-sm">
       <h2 class="text-2xl font-semibold mb-4">Provjera autentičnosti dokumenta</h2>
       <button
-          @click="verifyDocument"
-          class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded"
-          :disabled="!conversationId || verifyLoading"
+        @click="verifyDocument"
+        class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded"
+        :disabled="!conversationId || verifyLoading"
       >
         Provjeri dokument
         <span v-if="verifyLoading" class="ml-2 text-sm">Učitavanje...</span>
@@ -95,6 +95,7 @@
     </section>
   </div>
 </template>
+
 
 <script setup>
 import { ref, onMounted } from 'vue'
@@ -251,11 +252,14 @@ const generateWord = async () => {
       documentError.value = 'Neispravna putanja do Word dokumenta.'
     }
   } catch (err) {
+    console.error(err)
     documentError.value = err.response?.data?.error || 'Greška pri generiranju Word dokumenta.'
   } finally {
     docLoading.value = false
   }
 }
+
+
 
 const generateSignedPdf = async () => {
   if (!conversationId.value) {
@@ -274,17 +278,42 @@ const generateSignedPdf = async () => {
     const file = response.data.file_url
 
     if (file && file.startsWith('http')) {
+      fileUrl.value = file               // Sprema URL da se vidi i koristi
+      documentMessage.value = response.data.message || 'PDF dokument je generiran.'
+    } else {
+      documentError.value = 'Neispravna putanja do PDF dokumenta.'
+    }
+    const file = response.data.file_url
+
+    if (file && file.startsWith('http')) {
       fileUrl.value = file
       documentMessage.value = response.data.message || 'PDF dokument je generiran.'
     } else {
       documentError.value = 'Neispravna putanja do PDF dokumenta.'
     }
   } catch (err) {
+    console.error(err)
     documentError.value = err.response?.data?.error || 'Greška pri generiranju potpisanog PDF-a.'
   } finally {
     docLoading.value = false
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const verifyDocument = async () => {
   if (!conversationId.value) {

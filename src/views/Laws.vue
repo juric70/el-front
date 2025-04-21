@@ -82,6 +82,27 @@ const togglePdf = (index) => {
 
 onMounted(() => {
   fetchLaws()
+
+  console.log('🟡 Echo is:', window.Echo)
+
+  if (window.Echo) {
+    console.log('🟢 Subscribing to laws channel...')
+
+    window.Echo.channel('laws')
+      .listen('.laws.updated', (e) => {
+        console.log('✅ .laws.updated triggered:', e)
+        fetchLaws()
+      })
+      .listen('LawsUpdated', (e) => {
+        console.log('✅ LawsUpdated triggered:', e)
+        fetchLaws()
+      })
+      .listen('*', (e) => {
+        console.log('📦 Catch-all event:', e)
+      })
+  } else {
+    console.warn('❌ Echo is not available.')
+  }
 })
 </script>
 

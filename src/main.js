@@ -7,6 +7,7 @@ import 'aos/dist/aos.css'
 import router from './router'
 
 import './axios.js';
+//import './echo.js';
 
 
 

@@ -264,21 +264,21 @@ async function generateWord() {
     return
   }
   try {
-    const response = await axios.get(`/api/conversations/${selectedConversationId.value}/generate-word`, { responseType: 'blob' })
-    const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' })
-    const url = window.URL.createObjectURL(blob)
-    const link = document.createElement('a')
-    link.href = url
-    link.setAttribute('download', 'dokument.docx')
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-    window.URL.revokeObjectURL(url)
+    const response = await axios.get(`/api/conversations/${selectedConversationId.value}/generate-word`)
+    const fileUrl = response.data.file_url
+
+    if (fileUrl && fileUrl.startsWith('http')) {
+      const noCacheUrl = fileUrl + '?t=' + new Date().getTime()
+      window.open(noCacheUrl, '_blank')
+    } else {
+      alert('Greška: Neispravan file_url za Word dokument.')
+    }
   } catch (error) {
     console.error('Greška pri otvaranju Word dokumenta', error)
     alert('Greška pri otvaranju Word dokumenta.')
   }
 }
+
 
 async function generatePdf() {
   if (!selectedConversationId.value) {
@@ -286,21 +286,21 @@ async function generatePdf() {
     return
   }
   try {
-    const response = await axios.get(`/api/conversations/${selectedConversationId.value}/generate-signed-pdf`, { responseType: 'blob' })
-    const blob = new Blob([response.data], { type: 'application/pdf' })
-    const url = window.URL.createObjectURL(blob)
-    const link = document.createElement('a')
-    link.href = url
-    link.setAttribute('download', 'dokument.pdf')
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-    window.URL.revokeObjectURL(url)
+    const response = await axios.get(`/api/conversations/${selectedConversationId.value}/generate-signed-pdf`)
+    const fileUrl = response.data.file_url
+
+    if (fileUrl && fileUrl.startsWith('http')) {
+      const noCacheUrl = fileUrl + '?t=' + new Date().getTime()
+      window.open(noCacheUrl, '_blank')
+    } else {
+      alert('Greška: Neispravan file_url za PDF dokument.')
+    }
   } catch (error) {
     console.error('Greška pri otvaranju PDF dokumenta', error)
     alert('Greška pri otvaranju PDF dokumenta.')
   }
 }
+
 </script>
 
 <style scoped>
