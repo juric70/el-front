@@ -15,23 +15,25 @@
 
     <ul>
       <li class="p-3 border-b border-b-[0.3px] border-primary hover:bg-primary cursor-pointer" onclick="window.location.href='/'" >Početna</li>
-      <li class="p-3 border-b border-b-[0.3px] border-primary hover:bg-primary cursor-pointer" onclick="window.location.href='/login'">Login</li>
+      <li class="p-3 border-b border-b-[0.3px] border-primary hover:bg-primary cursor-pointer" onclick="window.location.href='/chat'">Razgovori</li>
+      <li class="p-3 border-b border-b-[0.3px] border-primary hover:bg-primary cursor-pointer" onclick="window.location.href='/laws'">Zakoni</li>
+<!--      <li class="p-3 border-b border-b-[0.3px] border-primary hover:bg-primary cursor-pointer" onclick="window.location.href='/signature'">Potpis</li>-->
+      <li class="p-3 border-b border-b-[0.3px] border-primary hover:bg-primary cursor-pointer" onclick="window.location.href='/documents'">Dokumenti</li>
+      <li class="p-3 border-b border-b-[0.3px] border-primary hover:bg-primary cursor-pointer" onclick="window.location.href='/aboutus'">O nama</li>
 
     </ul>
-    <div class="font-bold p-4 border-b border-b-[0.3px] border-primary ">
-      <h2>Povijest razgovora</h2>
-    </div>
+
 
     
-    <ul>
-          <li
-          v-for="chat in chats"
-          :key="chat.id"
-          @click="goToChat(chat.id)"
-          class="p-3 border-b border-primary hover:bg-primary cursor-pointer">
-        {{ chat.title }}
-      </li>
-    </ul>
+<!--    <ul>-->
+<!--          <li-->
+<!--          v-for="chat in chats"-->
+<!--          :key="chat.id"-->
+<!--          @click="goToChat(chat.id)"-->
+<!--          class="p-3 border-b border-primary hover:bg-primary cursor-pointer">-->
+<!--        {{ chat.title }}-->
+<!--      </li>-->
+<!--    </ul>-->
   </div>
 </template>
 

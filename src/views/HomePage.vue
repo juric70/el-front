@@ -12,18 +12,20 @@
             v-if="showInstructions"
             class="mt-2 p-4 border-primaryLight border-2 w-full md:w-auto rounded shadow"
         >
-          <h2 class="text-sm font-semibold mb-2 text-white">Kako koristiti chat za pravni dokument?</h2>
+          <h2 class="text-sm font-semibold mb-2 text-white">
+            Kako koristiti chat za pravni dokument
+          </h2>
           <ul class="list-disc ml-5 text-xs text-white">
             <li><strong>Vrsta dokumenta</strong> (npr. tužba, ugovor, punomoć...)</li>
-            <li><strong>Podaci o strankama</strong> (npr. ime i prezime tužitelja, tuženika, kupca, prodavatelja...)</li>
+            <li><strong>Podaci o strankama</strong> (npr. ime i prezime tužitelja, tuženika...)</li>
             <li><strong>Činjenični opis</strong> (što se dogodilo, gdje, kada...)</li>
             <li><strong>Pravni temelj</strong> (ako znate pravnu osnovu, možete je navesti)</li>
-            <li><strong>Zahtjev</strong> (što želite postići ovim dokumentom?)</li>
+            <li><strong>Zahtjev</strong> (što želite postići ovim dokumentom)</li>
           </ul>
           <p class="mt-2 text-xs text-white">
-            <strong>Primjer:</strong> "Želim sastaviti kupoprodajni ugovor. Prodavatelj je Ivan Horvat,
-            kupac je Marko Perić. Predmet prodaje je automobil BMW X5, 2018. godište, registracija
-            ST-123-AB. Cijena je 20.000 EUR, a plaćanje se vrši u dvije rate."
+            <strong>Primjer:</strong> Želim sastaviti kupoprodajni ugovor. Prodavatelj je Ivan Horvat,
+            kupac je Marko Perić. Predmet prodaje je automobil BMW X5, 2018. godište,
+            registracija ST-123-AB. Cijena je 20.000 EUR, plaćanje u dvije rate.
           </p>
         </div>
       </div>
@@ -34,13 +36,13 @@
             v-model="selectedConversationId"
             @change="onSelectConversation"
         >
-          <option value="">-- Odaberite razgovor --</option>
+          <option value="">Odaberite razgovor</option>
           <option
               v-for="conv in conversationsList"
               :key="conv.id"
               :value="conv.id"
           >
-            {{ conv.topic.length > 50 ? (conv.topic.slice(0, 50) + '...') : conv.topic }}
+            {{ conv.topic.length > 50 ? conv.topic.slice(0, 50) + '...' : conv.topic }}
           </option>
         </select>
         <button
@@ -183,7 +185,7 @@ async function loadConversation(convId) {
       displayText: msg.message
     })).reverse()
   } catch (error) {
-    console.error('Greška kod učitavanja povijesti razgovora:', error)
+    console.error('Greška kod učitavanja povijesti razgovora', error)
   }
 }
 
@@ -202,7 +204,7 @@ async function createNewConversation(topic) {
       isOpened.value = false
     }
   } catch (error) {
-    console.error('Greška kod kreiranja novog razgovora:', error)
+    console.error('Greška kod kreiranja novog razgovora', error)
   }
 }
 
@@ -225,12 +227,11 @@ async function startChat() {
     isLoading.value = true
     const askResponse = await axios.post(`/api/conversations/${selectedConversationId.value}/ask`, { query: userMessage.value })
     isLoading.value = false
-    aiMessage.fullText = askResponse.data.answer
-    aiMessage.displayText = askResponse.data.answer
+    messages.value[0].displayText = askResponse.data.answer
     showChat.value = true
     userMessage.value = ''
   } catch (error) {
-    console.error('Error starting chat:', error)
+    console.error('Error starting chat', error)
     isLoading.value = false
   }
 }
@@ -252,7 +253,7 @@ async function sendMsg() {
     aiMessage.displayText = askResponse.data.answer
     typedMessage.value = ''
   } catch (error) {
-    console.error('Error sending message:', error)
+    console.error('Error sending message', error)
     isLoading.value = false
   }
 }
@@ -274,7 +275,8 @@ async function generateWord() {
     document.body.removeChild(link)
     window.URL.revokeObjectURL(url)
   } catch (error) {
-    console.error('Greška pri preuzimanju Worda:', error)
+    console.error('Greška pri otvaranju Word dokumenta', error)
+    alert('Greška pri otvaranju Word dokumenta.')
   }
 }
 
@@ -295,7 +297,8 @@ async function generatePdf() {
     document.body.removeChild(link)
     window.URL.revokeObjectURL(url)
   } catch (error) {
-    console.error('Greška pri preuzimanju PDF-a:', error)
+    console.error('Greška pri otvaranju PDF dokumenta', error)
+    alert('Greška pri otvaranju PDF dokumenta.')
   }
 }
 </script>

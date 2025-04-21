@@ -7,6 +7,7 @@ import Laws from "./views/Laws.vue";
 import Signature from './views/Signature.vue'
 import DocumentView from './views/Documents.vue'
 import { useAuthStore } from './stores/auth.js'
+import AboutUs from "./views/AboutUs.vue";
 
 const routes = [
     { path: '/chat', component: HomePage, meta: { requiresAuth: true } },
@@ -14,8 +15,10 @@ const routes = [
     { path: '/login', component: Login, meta: { guestOnly: true } },
     { path: '/register', component: Register, meta: { guestOnly: true } },
     {path: '/laws', component: Laws },
-    {path: '/signature', component: Signature },
+   // {path: '/signature', component: Signature },
     {path: '/documents', component: DocumentView },
+    {path: '/aboutus', component: AboutUs },
+
 
 ]
 

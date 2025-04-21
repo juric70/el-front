@@ -12,20 +12,20 @@
 
     <section id="services" class="py-20 px-8 text-center bg-gray-50">
       <h3 class="text-3xl font-bold mb-10 text-primary">Naše usluge</h3>
-      <div class="grid md:grid-cols-4 gap-10">
+      <div class="grid md:grid-cols-4 gap-10" onclick="window.location.href='/chat'">
         <div class="p-8 border rounded-xl shadow-lg bg-white">
           <h4 class="text-2xl font-semibold mb-4 text-primary">AI odvjetnik</h4>
           <p class="text-lg text-gray-700">Brzi odgovori na osnovna pravna pitanja putem chata.</p>
         </div>
-        <div class="p-8 border rounded-xl shadow-lg bg-white">
+        <div class="p-8 border rounded-xl shadow-lg bg-white" onclick="window.location.href='/documents'">
           <h4 class="text-2xl font-semibold mb-4 text-primary"> Generiranje pravnih dokumenata</h4>
           <p class="text-lg text-gray-700">Preuzmite i prilagodite predloške pravnih dokumenata.</p>
         </div>
-        <div class="p-8 border rounded-xl shadow-lg bg-white">
+        <div class="p-8 border rounded-xl shadow-lg bg-white" onclick="window.location.href='/signature'">
           <h4 class="text-2xl font-semibold mb-4 text-primary">Digitalno potpisivanje dokumenata</h4>
           <p class="text-lg text-gray-700">Pronađite pravne stručnjake za svoje potrebe.</p>
         </div>
-        <div class="p-8 border rounded-xl shadow-lg bg-white">
+        <div class="p-8 border rounded-xl shadow-lg bg-white" onclick="window.location.href='/laws'">
           <h4 class="text-2xl font-semibold mb-4 text-primary">Brz pristup pravnim propisima i zakonima</h4>
           <p class="text-lg text-gray-700">Pronađite pravne stručnjake za svoje potrebe.</p>
         </div>
@@ -33,36 +33,9 @@
     </section>
 
   </div>
-
-  <button
-      @click="showDialog = true"
-      class="px-4 py-2 bg-blue-600 text-white rounded"
-  >
-    Dodaj novi razgovor
-  </button>
-
-  <NewConversationDialog
-      :isOpen="showDialog"
-      @save="handleSave"
-      @cancel="handleCancel"
-  />
-</template>
+ </template>
 
 <script setup>
-import { ref } from 'vue'
-import NewConversationDialog from './../components/NewConversationDialog.vue'
-
-const showDialog = ref(false)
-
-function handleSave(nazivRazgovora) {
-  console.log('Sačuvan razgovor:', nazivRazgovora)
-
-  showDialog.value = false
-}
-
-function handleCancel() {
-  showDialog.value = false
-}
 </script>
 
 <style>

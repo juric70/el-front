@@ -2,6 +2,7 @@
   <div class="max-w-4xl mx-auto p-6 space-y-8">
     <h1 class="text-4xl font-bold text-center mb-6">Rad s dokumentima i potpisom</h1>
 
+    <!-- Sekcija za potpis -->
     <section class="border rounded-lg p-4 shadow-sm">
       <h2 class="text-2xl font-semibold mb-4">Spremi potpis za dokumente</h2>
       <div class="border p-2 mb-4">
@@ -23,18 +24,26 @@
       <p v-if="signatureError" class="mt-2 text-red-600">{{ signatureError }}</p>
     </section>
 
+    <!-- Sekcija za generiranje dokumenata -->
     <section class="border rounded-lg p-4 shadow-sm">
       <h2 class="text-2xl font-semibold mb-4">Generiraj dokumente</h2>
+
+      <!-- Dropdown za razgovore -->
       <div class="mb-4">
-        <label for="conversationId" class="block text-lg mb-1">ID razgovora:</label>
-        <input
-            type="text"
-            v-model="conversationId"
-            id="conversationId"
+        <label for="conversationTitle" class="block text-lg mb-1">Odaberi razgovor:</label>
+        <select
+            v-model="selectedConversationTitle"
+            @change="updateConversationId"
+            id="conversationTitle"
             class="border rounded w-full p-2"
-            placeholder="Unesite ID razgovora"
-        />
+        >
+          <option value="">-- Odaberi razgovor --</option>
+          <option v-for="(conv, index) in conversations" :key="index" :value="conv.id">
+            {{ conv.topic }}
+          </option>
+        </select>
       </div>
+
       <div class="flex flex-wrap gap-4 mb-4">
         <button
             @click="generateWord"
@@ -52,6 +61,13 @@
           Generiraj potpisani PDF
           <span v-if="docLoading && docType === 'pdf'" class="ml-2 text-sm">Učitavanje...</span>
         </button>
+        <button
+            @click="openPdf"
+            class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded"
+            :disabled="!fileUrl"
+        >
+          📄 Preuzmi PDF
+        </button>
       </div>
       <p v-if="documentMessage" class="text-green-600">{{ documentMessage }}</p>
       <p v-if="documentError" class="text-red-600">{{ documentError }}</p>
@@ -60,6 +76,7 @@
       </div>
     </section>
 
+    <!-- Sekcija za verifikaciju dokumenta -->
     <section class="border rounded-lg p-4 shadow-sm">
       <h2 class="text-2xl font-semibold mb-4">Provjera autentičnosti dokumenta</h2>
       <button
@@ -88,21 +105,53 @@ const signatureData = ref('')
 const signatureMessage = ref('')
 const signatureError = ref('')
 
-const conversationId = ref('')
+const conversationId = ref(null)
 const documentMessage = ref('')
 const documentError = ref('')
 const fileUrl = ref('')
 const docLoading = ref(false)
-const docType = ref('') // 'word' ili 'pdf'
+const docType = ref('')
 
 const verifyMessage = ref('')
 const verifyError = ref('')
 const verifyUrl = ref('')
 const verifyLoading = ref(false)
 
+const conversations = ref([])
+const selectedConversationTitle = ref('')
+
+const fetchConversations = async () => {
+  try {
+    const response = await axios.get('/api/conversations')
+    conversations.value = response.data.conversations || response.data
+  } catch (err) {
+    console.error('Greška pri dohvaćanju razgovora:', err)
+  }
+}
+
+const updateConversationId = () => {
+  const selected = conversations.value.find(c => c.id === Number(selectedConversationTitle.value))
+  if (selected) {
+    conversationId.value = selected.id
+  }
+}
+
+
+const openPdf = () => {
+  if (fileUrl.value && fileUrl.value.startsWith('http')) {
+    const timestamp = new Date().getTime()
+    const urlWithTimestamp = `${fileUrl.value}?t=${timestamp}`
+    window.open(urlWithTimestamp, '_blank')
+  } else {
+    alert('PDF nije generiran ili nije dostupan.')
+  }
+}
+
 let canvas, ctx, drawing = false
 
 onMounted(() => {
+  fetchConversations()
+
   canvas = signaturePad.value
   if (canvas) {
     ctx = canvas.getContext('2d')
@@ -179,21 +228,29 @@ const saveSignature = async () => {
 }
 
 const generateWord = async () => {
-  if (!conversationId.value.trim()) {
-    documentError.value = 'Unesite ID razgovora.'
+  if (!conversationId.value) {
+    documentError.value = 'Odaberite razgovor.'
     return
   }
+
   documentMessage.value = ''
   documentError.value = ''
   fileUrl.value = ''
   docType.value = 'word'
   docLoading.value = true
+
   try {
     const response = await axios.get(`/api/conversations/${conversationId.value}/generate-word`)
-    documentMessage.value = response.data.message
-    fileUrl.value = response.data.file_url
+    const file = response.data.file_url
+
+    if (file && file.startsWith('http')) {
+      fileUrl.value = file
+      documentMessage.value = response.data.message || 'Word dokument je generiran.'
+      window.open(file, '_blank')
+    } else {
+      documentError.value = 'Neispravna putanja do Word dokumenta.'
+    }
   } catch (err) {
-    console.log(err.response?.data?.error)
     documentError.value = err.response?.data?.error || 'Greška pri generiranju Word dokumenta.'
   } finally {
     docLoading.value = false
@@ -201,19 +258,27 @@ const generateWord = async () => {
 }
 
 const generateSignedPdf = async () => {
-  if (!conversationId.value.trim()) {
-    documentError.value = 'Unesite ID razgovora.'
+  if (!conversationId.value) {
+    documentError.value = 'Odaberite razgovor.'
     return
   }
+
   documentMessage.value = ''
   documentError.value = ''
   fileUrl.value = ''
   docType.value = 'pdf'
   docLoading.value = true
+
   try {
     const response = await axios.get(`/api/conversations/${conversationId.value}/generate-signed-pdf`)
-    documentMessage.value = response.data.message
-    fileUrl.value = response.data.file_url
+    const file = response.data.file_url
+
+    if (file && file.startsWith('http')) {
+      fileUrl.value = file
+      documentMessage.value = response.data.message || 'PDF dokument je generiran.'
+    } else {
+      documentError.value = 'Neispravna putanja do PDF dokumenta.'
+    }
   } catch (err) {
     documentError.value = err.response?.data?.error || 'Greška pri generiranju potpisanog PDF-a.'
   } finally {
@@ -222,8 +287,8 @@ const generateSignedPdf = async () => {
 }
 
 const verifyDocument = async () => {
-  if (!conversationId.value.trim()) {
-    verifyError.value = 'Unesite ID razgovora.'
+  if (!conversationId.value) {
+    verifyError.value = 'Odaberite razgovor.'
     return
   }
   verifyMessage.value = ''
