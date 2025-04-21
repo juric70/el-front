@@ -19,6 +19,7 @@
       <li class="p-3 border-b border-b-[0.3px] border-primary hover:bg-primary cursor-pointer" onclick="window.location.href='/laws'">Zakoni</li>
 <!--      <li class="p-3 border-b border-b-[0.3px] border-primary hover:bg-primary cursor-pointer" onclick="window.location.href='/signature'">Potpis</li>-->
       <li class="p-3 border-b border-b-[0.3px] border-primary hover:bg-primary cursor-pointer" onclick="window.location.href='/documents'">Dokumenti</li>
+      <li class="p-3 border-b border-b-[0.3px] border-primary hover:bg-primary cursor-pointer" onclick="window.location.href='/profile'">Profil</li>
       <li class="p-3 border-b border-b-[0.3px] border-primary hover:bg-primary cursor-pointer" onclick="window.location.href='/aboutus'">O nama</li>
 
     </ul>

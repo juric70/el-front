@@ -8,6 +8,7 @@ import Signature from './views/Signature.vue'
 import DocumentView from './views/Documents.vue'
 import { useAuthStore } from './stores/auth.js'
 import AboutUs from "./views/AboutUs.vue";
+import Profile from "./views/Profile.vue";
 
 const routes = [
     { path: '/chat', component: HomePage, meta: { requiresAuth: true } },
@@ -18,6 +19,7 @@ const routes = [
    // {path: '/signature', component: Signature },
     {path: '/documents', component: DocumentView },
     {path: '/aboutus', component: AboutUs },
+    {path: '/profile', component: Profile },
 
 
 ]
