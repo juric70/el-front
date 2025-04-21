@@ -275,18 +275,9 @@ const generateSignedPdf = async () => {
 
   try {
     const response = await axios.get(`/api/conversations/${conversationId.value}/generate-signed-pdf`)
-    const file = response.data.file_url
-
-    if (file && file.startsWith('http')) {
-      fileUrl.value = file               // Sprema URL da se vidi i koristi
-      documentMessage.value = response.data.message || 'PDF dokument je generiran.'
-    } else {
-      documentError.value = 'Neispravna putanja do PDF dokumenta.'
-    }
-    const file = response.data.file_url
-
-    if (file && file.startsWith('http')) {
-      fileUrl.value = file
+    
+    if (response.data.file_url && response.data.file_url.startsWith('http')) {
+      fileUrl.value = response.data.file_url
       documentMessage.value = response.data.message || 'PDF dokument je generiran.'
     } else {
       documentError.value = 'Neispravna putanja do PDF dokumenta.'
@@ -298,6 +289,7 @@ const generateSignedPdf = async () => {
     docLoading.value = false
   }
 }
+
 
 
 
