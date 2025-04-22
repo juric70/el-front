@@ -1,0 +1,17 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci
+    build:
+      commands:
+        - npm run build
+  artifacts:
+    # Change this if your Vue build outputs elsewhere
+    baseDirectory: dist
+    files:
+      - '*/'
+  cache:
+    paths:
+      - node_modules/*/
