@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': { // Proxy samo API rute
-        target: 'http://localhost:8000',
+        target: 'http://3.76.105.28',
         changeOrigin: true,
         secure: false,
         ws: true
