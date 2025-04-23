@@ -1,9 +1,15 @@
+// src/services/api.js  (ili gdje već centralno inicijaliziraš axios)
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://3.76.105.28/';
-axios.defaults.headers.common['Accept'] = 'application/json';
-axios.defaults.headers.common['Content-Type'] = 'application/json';
+/**
+ *  baseURL = '/api'
+ *  ➜  GET '/users'  postaje  http://HOST/api/users
+ */
+axios.defaults.baseURL = '/api';             // <— samo /api, bez IP-a
 
+axios.defaults.headers.common['Accept'] = 'application/json';
+// Content-Type postavi samo za POST/PUT, ne globalno za GET:
+axios.defaults.headers.post['Content-Type']  = 'application/json';
 
 axios.interceptors.request.use(
     (config) => {
@@ -13,9 +19,7 @@ axios.interceptors.request.use(
         }
         return config;
     },
-    (error) => {
-        return Promise.reject(error);
-    }
+    (error) => Promise.reject(error)
 );
 
 export default axios;
