@@ -84,7 +84,7 @@ const docLoading = ref(false)
 const docType = ref('')
 
 const fetchConversations = async () => {
-  const { data } = await axios.get('/api/conversations').catch(()=>({data:[]}))
+  const { data } = await axios.get('/conversations').catch(()=>({data:[]}))
   conversations.value = data.conversations ?? data
 }
 
@@ -107,7 +107,7 @@ const generateWord = async () => {
 
   try {
     const { data } = await axios.get(
-        `/api/conversations/${conversationId.value}/generate-word`
+        `/conversations/${conversationId.value}/generate-word`
     )
 
     if (!data.file_url?.startsWith('http')) throw new Error()
@@ -133,7 +133,7 @@ const generateSignedPdf = async () => {
   if (!conversationId.value) return (documentError.value = 'Odaberite razgovor.')
   resetDocState('pdf')
   try {
-    const { data } = await axios.get(`/api/conversations/${conversationId.value}/generate-signed-pdf`)
+    const { data } = await axios.get(`/conversations/${conversationId.value}/generate-signed-pdf`)
     if (!data.file_url?.startsWith('http')) throw new Error()
     fileUrl.value = data.file_url
     documentMessage.value = data.message || 'PDF dokument je generiran.'
@@ -168,7 +168,7 @@ const saveSignature = async () => {
   signatureMessage.value=''
   signatureError.value=''
   try{
-    const { data } = await axios.post('/api/signature/document',{ signature:signatureData.value })
+    const { data } = await axios.post('/signature/document',{ signature:signatureData.value })
     signatureMessage.value=data.message
   }catch(err){
     signatureError.value=err.response?.data?.message||'Greška prilikom spremanja potpisa.'

@@ -113,7 +113,7 @@ const error = ref('')
 
 const fetchProfile = async () => {
   try {
-    const { data } = await axios.get('/api/profile')
+    const { data } = await axios.get('/profile')
     form.value.name = data.user.name
     form.value.email = data.user.email
     form.value.role = data.user.role
@@ -130,7 +130,7 @@ const updateProfile = async () => {
   message.value = ''
   error.value = ''
   try {
-    await axios.patch('/api/profile', {
+    await axios.patch('/profile', {
       name: form.value.name,
       email: form.value.email
     })

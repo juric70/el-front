@@ -32,7 +32,7 @@ const error = ref('')
 
 const fetchSignature = async () => {
   try {
-    const response = await axios.get('/api/signature')
+    const response = await axios.get('/signature')
     signature.value = response.data.signature
   } catch (err) {
     if (err.response && err.response.status === 404) {
@@ -49,7 +49,7 @@ const saveSignature = async () => {
   try {
     error.value = ''
     message.value = ''
-    const response = await axios.post('/api/signature', { signature: signature.value })
+    const response = await axios.post('/signature', { signature: signature.value })
     message.value = response.data.message
   } catch (err) {
     error.value =

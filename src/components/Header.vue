@@ -20,7 +20,7 @@ function closeMenu() {
 
 const logout = async () => {
   try {
-    await axios.post('/api/logout')
+    await axios.post('/logout')
     authStore.logout()
     router.push('/login')
   } catch (error) {

@@ -104,7 +104,7 @@ const toggleInstructions=()=>showInstructions.value=!showInstructions.value
 
 onMounted(async()=>{await fetchConversations();AOS.init({duration:1000})})
 
-async function fetchConversations(){try{const r=await axios.get('/api/conversations');conversationsList.value=r.data}catch{}}
+async function fetchConversations(){try{const r=await axios.get('/conversations');conversationsList.value=r.data}catch{}}
 
 async function onSelectConversation(){
   if(!selectedConversationId.value){showChat.value=false;return}
@@ -114,7 +114,7 @@ async function onSelectConversation(){
 async function loadConversation(id){
   try{
     messages.value=[]
-    const r=await axios.get(`/api/conversations/${id}/history`)
+    const r=await axios.get(`/conversations/${id}/history`)
     messages.value=r.data.map(m=>({role:m.role,fullText:m.message,displayText:m.message})).reverse()
   }catch{}
 }
@@ -122,7 +122,7 @@ async function loadConversation(id){
 async function createNewConversation(topic){
   if(!topic)return
   try{
-    const r=await axios.post('/api/conversations',{topic})
+    const r=await axios.post('/conversations',{topic})
     conversationsList.value.push({id:r.data.conversation_id,topic})
     selectedConversationId.value=r.data.conversation_id
     messages.value=[];showChat.value=true;isOpened.value=false
@@ -134,12 +134,12 @@ async function startChat(){
   const current=userMessage.value
   userMessage.value=''
   try{
-    const c=await axios.post('/api/conversations',{topic:current})
+    const c=await axios.post('/conversations',{topic:current})
     selectedConversationId.value=c.data.conversation_id
     conversationsList.value.push({id:c.data.conversation_id,topic:current})
     messages.value.unshift({role:'user',fullText:current,displayText:current})
     const ai={role:'assistant',fullText:'',displayText:''};messages.value.unshift(ai);isLoading.value=true
-    const a=await axios.post(`/api/conversations/${selectedConversationId.value}/ask`,{query:current})
+    const a=await axios.post(`/conversations/${selectedConversationId.value}/ask`,{query:current})
     isLoading.value=false;ai.displayText=a.data.answer;showChat.value=true
   }catch{isLoading.value=false}
 }
@@ -151,7 +151,7 @@ async function sendMsg(){
   messages.value.unshift({role:'user',fullText:current,displayText:current})
   const ai={role:'assistant',fullText:'',displayText:''};messages.value.unshift(ai);isLoading.value=true
   try{
-    const a=await axios.post(`/api/conversations/${selectedConversationId.value}/ask`,{query:current})
+    const a=await axios.post(`/conversations/${selectedConversationId.value}/ask`,{query:current})
     isLoading.value=false;ai.fullText=a.data.answer;ai.displayText=a.data.answer
   }catch{isLoading.value=false}
 }
@@ -169,7 +169,7 @@ const generateWord = async () => {
   }
   resetDocState('word')
   try {
-    const {data} = await axios.get(`/api/conversations/${selectedConversationId.value}/generate-word`)
+    const {data} = await axios.get(`/conversations/${selectedConversationId.value}/generate-word`)
     if (!data.file_url?.startsWith('http')) throw new Error()
     const a = document.createElement('a');
     a.href = data.file_url;
@@ -191,7 +191,7 @@ const generatePdf = async () => {
   }
   resetDocState('pdf')
   try {
-    const {data} = await axios.get(`/api/conversations/${selectedConversationId.value}/generate-signed-pdf`)
+    const {data} = await axios.get(`/conversations/${selectedConversationId.value}/generate-signed-pdf`)
     if (!data.file_url?.startsWith('http')) throw new Error()
     window.open(data.file_url, '_blank')
   } catch {

@@ -59,7 +59,7 @@ const openedPdfIndex = ref(null)
 
 const fetchLaws = async () => {
   try {
-    const response = await axios.get('/api/laws')
+    const response = await axios.get('/laws')
     laws.value = response.data.laws
   } catch (error) {
     console.error(error)
